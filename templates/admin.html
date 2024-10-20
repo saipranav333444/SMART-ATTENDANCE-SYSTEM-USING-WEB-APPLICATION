@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 20px;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px; /* Rounded corners for images */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow effect */
+            animation: fadeIn 1s ease; /* Added animation for smoother appearance */
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 30px;
+            max-width: 600px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 17px;
+            margin: 20px 0 10px;
+            color: #444;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            font-size: 17px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="file"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        input[type="file"] {
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 25px;
+            margin: 10px auto 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 17px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: block;
+            width: calc(100% - 24px); /* Adjusted width */
+        }
+
+        button[type="submit"]:hover,
+        button[type="submit"]:focus {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .output-message {
+            font-size: 15px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 575.98px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            label,
+            input[type="text"],
+            input[type="file"],
+            button[type="submit"] {
+                font-size: 15px;
+            }
+
+            .output-message {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <img src="{{ url_for('static', filename='image.jpg') }}" alt="Logo">
+    <h1>Sagi Rama Krishnam Raju Engineering College - Bhimavaram</h1>
+    <div class="container">
+        <h1>Create Folder</h1>
+        <form action="/create_folder" method="post">
+            <label for="folderName">Folder Name: </label>
+            <input type="text" id="folderName" name="folderName" required>
+            <button type="submit">Create Folder</button>
+        </form>
+        <p id="folderMessage" class="output-message">{{ folder_message }}</p>
+    </div>
+
+    <div class="container">
+        <h1>Upload Photos</h1>
+        <form action="/upload_photos" method="post" enctype="multipart/form-data">
+            <label for="folder_name">Folder Name:</label>
+            <input type="text" id="folder_name" name="folder_name" required>
+            <input type="file" name="files[]" accept="image/*" multiple required>
+            <button type="submit">Upload Photos</button>
+        </form>
+        <p id="photosMessage" class="output-message">{{ photos_message }}</p>
+    </div>
+
+    <div class="container">
+        <h1>Delete Photos</h1>
+        <form action="/delete_photos" method="post">
+            <label for="delete_folder_name">Folder Name:</label>
+            <input type="text" id="delete_folder_name" name="delete_folder_name" required>
+            <input type="file" name="delete_files[]" accept="image/*" multiple required>
+            <button type="submit">Delete Photos</button>
+        </form>
+        <p id="deletePhotosMessage" class="output-message">{{ del_photos_message }}</p>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; /* Changed font to Arial */
+            background-color: #f2f2f2;
+            text-align: center;
+            animation: fadeIn 1s ease; /* Added animation for smoother appearance */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px 20px;
+            background-color: #fff;
+            border-radius: 15px; /* Increased border-radius for rounder edges */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Added shadow effect */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: slideIn 1s ease; /* Added animation for smoother appearance */
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: bold; /* Added bold font weight */
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin: 20px 0 10px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        input[type="submit"] {
+            padding: 12px;
+            border-radius: 8px; /* Rounded corners for input elements */
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added shadow effect */
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 300px;
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #004085;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px; /* Rounded corners for images */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow effect */
+            animation: fadeIn 1s ease; /* Added animation for smoother appearance */
+        }
+
+        form {
+            margin-top: 30px;
+            animation: slideIn 1s ease; /* Added animation for smoother appearance */
+        }
+
+        a#downloadLink {
+            display: inline-block;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold; /* Added bold font weight */
+            transition: text-decoration 0.2s; /* Smooth transition for hover effect */
+        }
+
+        a#downloadLink:hover {
+            text-decoration: underline;
+        }
+.alert {
+    padding: 15px;
+    background-color: #f44336; /* Red background color */
+    color: white; /* White text color */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 20px; /* Added margin to separate from other elements */
+    display: none; /* Initially hide the alert */
+}
+
+.alert.show {
+    display: block; /* Show the alert when the 'show' class is added */
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='image.jpg') }}" alt="Logo">
+        <h1>Sagi Rama Krishnam Raju Engineering College</h1>
+        <h1>Face Detection</h1>
+        <form id="attendanceForm">
+            <label for="duration">Subject Name:</label>
+            <input type="text" id="duration" name="duration" value="Subject">
+            <label for="timee">Class:</label>
+            <input type="text" id="timee" name="timee" value="cse-">
+<br>
+            <button type="button" onclick="startAttendance()">Take Attendance</button>
+        </form>
+        <br>
+        <a id="downloadLink" href="#" download>Download Attendance</a>
+        <script>
+        function capitalizeWord(word) {
+            return word.split('').map(letter => letter.toUpperCase()).join('');
+        }
+
+        function startAttendance() {
+            var durationInput = document.getElementById('duration').value;
+            var timeeInput = document.getElementById('timee').value;
+		timeeInput=capitalizeWord(timeeInput);
+            var formData = new FormData();
+            formData.append('duration', durationInput);
+            formData.append('timee', timeeInput);
+            var downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = "download/attendance_excel_" + timeeInput + "_" + durationInput + ".xlsx";
+            fetch('/start_attendance', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                console.log(data);
+                alert('Attendance process is done.');
+		
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert('Error occurred while taking attendance.');
+            });
+        }
+    </script>
+        <h1>Upload Photos</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="files[]" accept="image/*" multiple required>
+            <input type="submit" value="Upload" onclick="showUploadAlert()">
+        </form>
+    </div>
+<script>
+        function showUploadAlert() {
+            alert('Images are uploaded.');
+        }
+    </script>
+</body>
+
+</html>

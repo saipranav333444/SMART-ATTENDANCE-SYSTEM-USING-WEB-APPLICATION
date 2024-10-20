@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: Arial, sans-serif; /* Changed font to Arial */
+    }
+
+    .login-container {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .login-container h1 {
+      margin: 0 0 1.5em 0;
+      text-align: center;
+      font-size: 1.75rem;
+      color: #333333;
+    }
+
+    .login-container img {
+      display: block;
+      margin: 0 auto 1.5em auto;
+      max-width: 150px;
+      height: auto;
+      border-radius: 50%; /* Rounded image */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow effect */
+    }
+
+    .form-group {
+      margin-bottom: 1.5em;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+      font-weight: 600;
+      color: #666666;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px; /* Reduced padding */
+      border: 1px solid #cccccc;
+      border-radius: 6px;
+      line-height: 1.5;
+      font-size: 0.9rem; /* Reduced font size */
+      transition: border-color 0.3s;
+      font-family: Arial, sans-serif; /* Changed font to Arial */
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    button[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 12px; /* Reduced padding */
+      border: none;
+      border-radius: 6px;
+      background-color: #007bff;
+      color: #ffffff;
+      font-size: 0.9rem; /* Reduced font size */
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-family: Arial, sans-serif; /* Changed font to Arial */
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+      border-radius: 10px; /* Rounded corners for images */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow effect */
+      animation: fadeIn 1s ease; /* Added animation for smoother appearance */
+    }
+
+    /* Media Query for Mobile Devices */
+    @media only screen and (max-width: 600px) {
+      .login-container {
+        padding: 20px; /* Reduced padding */
+      }
+      .login-container h1 {
+        font-size: 1.5rem; /* Reduced font size */
+      }
+      input[type="text"],
+      input[type="password"],
+      button[type="submit"] {
+        padding: 8px; /* Reduced padding */
+        font-size: 0.8rem; /* Reduced font size */
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+    
+    <img src="{{ url_for('static', filename='image.jpg') }}" alt="Logo">
+    <h1>Sagi Rama Krishnam Raju Engineering College - Bhimavaram</h1>
+    <!-- Check for login_status and display message if error -->
+    {% if login_status == "error" %}
+    <p style="color: red; text-align: center;">Invalid credentials</p>
+    {% endif %}
+
+    <form class="login-form" action="/login" method="POST">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+
+</html>
